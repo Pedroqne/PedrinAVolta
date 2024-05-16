@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pedro.silva\\Source\\Repos\\PedrinAVolta\\WebApplication1\\WebApplication1.csproj": {}
+    "C:\\Users\\pedro.silva\\source\\repos\\PedrinAVolta\\WebApplication1\\WebApplication1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pedro.silva\\Source\\Repos\\PedrinAVolta\\WebApplication1\\WebApplication1.csproj": {
+    "C:\\Users\\pedro.silva\\source\\repos\\PedrinAVolta\\WebApplication1\\WebApplication1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pedro.silva\\Source\\Repos\\PedrinAVolta\\WebApplication1\\WebApplication1.csproj",
+        "projectUniqueName": "C:\\Users\\pedro.silva\\source\\repos\\PedrinAVolta\\WebApplication1\\WebApplication1.csproj",
         "projectName": "WebApplication1",
-        "projectPath": "C:\\Users\\pedro.silva\\Source\\Repos\\PedrinAVolta\\WebApplication1\\WebApplication1.csproj",
+        "projectPath": "C:\\Users\\pedro.silva\\source\\repos\\PedrinAVolta\\WebApplication1\\WebApplication1.csproj",
         "packagesPath": "C:\\Users\\pedro.silva\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pedro.silva\\Source\\Repos\\PedrinAVolta\\WebApplication1\\obj\\",
+        "outputPath": "C:\\Users\\pedro.silva\\source\\repos\\PedrinAVolta\\WebApplication1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pedro.silva\\AppData\\Roaming\\NuGet\\NuGet.Config",

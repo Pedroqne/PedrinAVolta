@@ -2,7 +2,7 @@
 
 namespace WebApplication1.Repository
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository : IRepository<Category>
     {
         IEnumerable<Category> GetCategoryAndProducts();
     }

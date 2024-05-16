@@ -2,8 +2,8 @@
 
 namespace WebApplication1.Repository
 {
-    public interface IProductRepository
+    public interface IProductRepository : IRepository<Product>
     {
-        IEnumerable<Product> GetProductOrderByPrice();
+        IEnumerable<Product> GetProductByPrice();
     }
 }

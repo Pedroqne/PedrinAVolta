@@ -5,8 +5,8 @@ namespace WebApplication1.Repository
     public class UnityOfWork : IUnityOfWork
     {
 
-        private ProductRepository _productRepository;
-        private CategoryRepository _categoryRepository;
+        private ProductRepository _productRepo;
+        private CategoryRepository _categoryRepo;
         public AppDbContext _context;
 
         public UnityOfWork(AppDbContext context)
@@ -18,15 +18,16 @@ namespace WebApplication1.Repository
         {
             get
             {
-                return _productRepository ?? new ProductRepository(_context);
+                return _productRepo = _productRepo ?? new ProductRepository(_context);
             }
         }
+
 
         public ICategoryRepository CategoryRepository
         {
             get
             {
-                return _categoryRepository ?? new CategoryRepository(_context);
+                return _categoryRepo = _categoryRepo ?? new CategoryRepository(_context);
             }
         }
 
