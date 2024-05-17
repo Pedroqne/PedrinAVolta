@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 
 namespace WebApplication1.DataContext
 {
-    public class AppDbContext : DbContext 
+    public class AppDbContext : IdentityDbContext<ApplicationUser> 
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -13,6 +14,10 @@ namespace WebApplication1.DataContext
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
+
+            base.OnModelCreating(mb);
+
+
             // Products 
 
             mb.Entity<Product>().Property(p => p.Name)
