@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.DataContext;
+using WebApplication1.DTOs.Mapping;
 using WebApplication1.Models;
 using WebApplication1.Repository;
 
@@ -20,8 +21,16 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+builder.Services.AddAutoMapper(typeof(ProductDTOMappingProfile));
 
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnityOfWork, UnityOfWork>();
+
+
+
 
 var app = builder.Build();
 

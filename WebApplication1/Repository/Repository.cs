@@ -25,21 +25,27 @@ namespace WebApplication1.Repository
             .SingleOrDefault(predicate);
         }
 
-        public void Add(T entity)
+        public T Create(T entity)
         {
             _context.Set<T>().Add(entity);
+
+            return entity;
         }
 
-        public void Delete(T entity)
+        public T Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
+
+            return entity;
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
             _context.Entry(entity)
                     .State = EntityState.Modified;
             _context.Set<T>().Update(entity);
+
+            return entity;
         }
     }
 }

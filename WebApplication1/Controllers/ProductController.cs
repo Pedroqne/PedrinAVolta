@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using WebApplication1.DTOs;
 using WebApplication1.Models;
+using WebApplication1.Pagination;
 using WebApplication1.Repository;
 
 namespace WebApplication1.Controllers
@@ -9,70 +13,114 @@ namespace WebApplication1.Controllers
     public class ProductController : Controller
     {
 
-        private readonly IUnityOfWork _uof; 
+        private readonly IUnityOfWork _uof;
+        private readonly IMapper _mapper;
 
-        public ProductController(IUnityOfWork uof)
+        public ProductController(IUnityOfWork uof, IMapper mapper)
         {
             _uof = uof;
+            _mapper = mapper;
         }
 
 
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> Get()
+        public ActionResult<IEnumerable<ProductDTO>> Get()
         {
             var product = _uof.ProductRepository.Get().ToList();
 
-            return Ok(product);
+            if (product is null)
+            {
+                return NotFound();
+            }
+
+            var productDTO = _mapper.Map<IEnumerable<ProductDTO>>(product);
+
+            return Ok(productDTO);
         }
 
 
         [HttpGet("{id}", Name = "GetProduct")]
-        public ActionResult<IEnumerable<Product>> GetProductById(int id)
+        public ActionResult<IEnumerable<ProductDTO>> GetProductById(int id)
         {
             var product = _uof.ProductRepository.GetById(p => p.Id == id);
 
             if (product == null)
             {
                 return NotFound();
-            }   
+            }
 
-            return Ok(product);
+            var productDTO = _mapper.Map<IEnumerable<ProductDTO>>(product);
+
+            return Ok(productDTO);
+        }
+
+        [HttpGet("pagination")]
+        public ActionResult<IEnumerable<ProductDTO>> Get([FromQuery] ProductParameters productParameters)
+        {
+            var product = _uof.ProductRepository.GetProducts(productParameters);
+
+            var metadata = new
+            {
+                product.TotalCount,
+                product.PageSize,
+                product.CurrentPage,
+                product.TotalPages,
+                product.HasNext,
+                product.HasPrevius
+            };
+
+            Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            var productDTO = _mapper.Map<IEnumerable<ProductDTO>>(product);
+
+            return Ok(productDTO);
         }
 
 
+
         [HttpPost]
-        public ActionResult Post([FromBody] Product product)
+        public ActionResult<ProductDTO> Post([FromBody] ProductDTO productDTO)
         {
-            if (product == null)
+            if (productDTO == null)
             {
                 return BadRequest();
             }
 
-            _uof.ProductRepository.Add(product);
+            var product = _mapper.Map<Product>(productDTO);
+
+            var newProduct =  _uof.ProductRepository.Add(product);
             _uof.Commit();
 
+            var newProductDTO = _mapper.Map<ProductDTO>(newProduct);
+
+            
+
             return new CreatedAtRouteResult("GetProduct",
-                new {id = product.Id }, product);
+                new {id = newProductDTO.Id }, newProductDTO);
         }
 
 
         [HttpPut] 
-        public ActionResult Put(int id, Product product)
+        public ActionResult<ProductDTO> Put(int id, ProductDTO productDTO)
         {
-            if (id != product.Id)
+            if (id != productDTO.Id)
             {
                 return BadRequest();
             }
 
-            _uof.ProductRepository.Update(product);
+            var product = _mapper.Map<Product>(productDTO);
+
+            var productAtulizado = _uof.ProductRepository.Update(product);
             _uof.Commit();
 
-            return Ok();
+            var productAtualizadoDTO = _mapper.Map<ProductDTO>(productAtulizado);
+
+            return Ok(productAtualizadoDTO);
         }
 
 
         [HttpDelete]
-        public ActionResult Delete(int id)
+        public ActionResult<ProductDTO> Delete(int id)
         {
             var product = _uof.ProductRepository.GetById(p => p.Id == id);
 

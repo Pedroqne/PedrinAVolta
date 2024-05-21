@@ -6,9 +6,9 @@ namespace WebApplication1.Repository
     {
         IQueryable<T> Get();
         T GetById(Expression<Func<T, bool>> expression);
-        void Add(T entity); 
-        void Delete(T entity); 
-        void Update(T entity);
+        T Add(T entity); 
+        T Delete(T entity); 
+        T Update(T entity);
 
     }
 }
